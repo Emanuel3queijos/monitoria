@@ -7,7 +7,8 @@ public abstract class Produto {
     private String descricao;
     private Double valorUnitario;
 
-    public Produto(){
+    public Produto() {
+
     }
 
     public Produto(Integer codigo, String descricao, Double valorUnitario) {

@@ -54,9 +54,9 @@ seguindo a orientação da atividade, criaremos a Classe exception:
 
 ```java
 package Exception;
-public class Exception extends java.lang.Exception {
+public class ProdutoException extends Exception {
     private static final long serialVersionUID = 1L;
-    public Exception(String message){
+    public ProdutoException(String message){
         super(message);
     }
     
@@ -158,7 +158,16 @@ private Double valorUnitario;
 ```
 >Seguindo a orientação da atividade, criaremos os atributos privados, juntamente com os metodos `get` e `set`, que são fornecidos para acessar e modificar atributos privados, promovendo um controle preciso sobre a manipulação dos dados. Isso aumenta a segurança, permite validações e facilita a evolução do código ao isolar as mudanças internas da interface externo
 
+### construtor parametrizado
 
+>Seguindo a orientação da atividade, criaremos um construtor parametrizado com todos os atributos
+```java
+    public Produto(Integer codigo, String descricao, Double valorUnitario) {
+        this.codigo = codigo;
+        this.descricao = descricao;
+        this.valorUnitario = valorUnitario;
+    }
+```
 ### ToString
 
 ```java
@@ -173,3 +182,145 @@ private Double valorUnitario;
 ```
 >Override do método toString(), que retorna uma representação de string do objeto. Esse método é frequentemente usado para imprimir informações úteis sobre o objeto. No caso, ele retorna uma string que contém o código, a descrição e o valor unitário do produto.
 
+## Classe `Bolo`
+
+```java
+package domain;
+
+public class Bolo extends Produto {
+
+
+    private Integer quantFatias;
+    private String tema;
+
+    public Bolo() {
+        super();
+    }
+
+    public Bolo(Integer codigo, String descricao, Double valorUnitario, Integer quantFatias, String tema) {
+        super(codigo, descricao, valorUnitario);
+        this.quantFatias = quantFatias;
+        this.tema = tema;
+    }
+
+    public Integer getQuantFatias() {
+        return quantFatias;
+    }
+
+    public void setQuantFatias(Integer quantFatias) {
+        this.quantFatias = quantFatias;
+    }
+
+    public String getTema() {
+        return tema;
+    }
+
+    public void setTema(String tema) {
+        this.tema = tema;
+    }
+    
+    @Override
+    public String toString() {
+        return "Bolo [quantFatias=" + quantFatias + ", tema=" + tema + ", getCodigo()=" + getCodigo()
+                + ", getDescricao()=" + getDescricao() + ", getValorUnitario()=" + getValorUnitario() + "]";
+    }
+}
+
+```
+
+>atributos necessários, com base na atividade:
+
+```java
+  private Integer quantFatias;
+    private String tema;
+```
+
+>Contrutores:
+
+```java
+  public Bolo() {
+        super();
+    }
+
+    public Bolo(Integer codigo, String descricao, Double valorUnitario, Integer quantFatias, String tema) {
+        super(codigo, descricao, valorUnitario);
+        this.quantFatias = quantFatias;
+        this.tema = tema;
+    }
+```
+>A necessidade de chamar explicitamente o construtor da superclasse em uma subclasse, mesmo que a superclasse não tenha um construtor sem argumentos é uma prática necessária para garantir uma inicialização adequada e consistente dos objetos, especialmente quando se lida com hierarquias de classes.
+
+## Classe `Doce`
+
+```java
+package domain;
+
+import Exception.ProdutoException;
+
+public class Doce extends Produto {
+
+
+    private Integer minPedido;
+
+
+    public Doce() {
+        super();
+    }
+
+    public Doce(Integer codigo, String descricao, Double valorUnitario, Integer minPedido) {
+        super(codigo, descricao, valorUnitario);
+        this.minPedido = minPedido;
+    }
+
+    public Integer getMinPedido() {
+        return minPedido;
+    }
+
+    public void setMinPedido(Integer minPedido) throws ProdutoException {
+        validarMinPedido(minPedido);
+        this.minPedido = minPedido;
+    }
+
+    public static void validarMinPedido(Integer minPedido) throws ProdutoException {
+        if (minPedido < 50) {
+            throw new ProdutoException("O Numero de doces é muito baixo para continuar a operação, Por Favor peça pelo menos 50 docinhoS S2");
+        }
+
+    }
+
+
+    @Override
+    public String toString() {
+        return "Doce{" +
+                "minPedido=" + minPedido +
+                "} " + super.toString();
+    }
+}
+
+
+
+```
+
+> Seguindo a orientação da atividade, criamos os `construtores`, `gettes and setters`, e `ToString`. 
+
+### Função `validarMinPedido`
+
+>Criamos a função que verifica se a quantidade de docinhos é maior que 50. Caso não seja, retorna uma Exception personalizada com a respectiva mensagem;
+
+>Ela é chamada no ato de settar o valor para os docinhos 
+
+```java
+
+    public void setMinPedido(Integer minPedido) throws ProdutoException {
+        validarMinPedido(minPedido);
+        this.minPedido = minPedido;
+    }
+
+    public static void validarMinPedido(Integer minPedido) throws ProdutoException {
+        if (minPedido < 50) {
+            throw new ProdutoException("O Numero de doces é muito baixo para continuar a operação, Por Favor peça pelo menos 50 docinhoS S2");
+        }
+
+    }
+
+```

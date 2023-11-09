@@ -1,9 +1,10 @@
 package Exception;
-public class Exception extends java.lang.Exception {
+
+public class ProdutoException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
-    public Exception(String message){
+    public ProdutoException(String message) {
 
         super(message);
     }

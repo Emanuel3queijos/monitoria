@@ -150,7 +150,7 @@ public abstract class Produto {
 }
 ```
 
-### Atributos necessários:
+#### Atributos necessários:
 ```java
 private Integer codigo;
 private String descricao;
@@ -158,7 +158,7 @@ private Double valorUnitario;
 ```
 >Seguindo a orientação da atividade, criaremos os atributos privados, juntamente com os metodos `get` e `set`, que são fornecidos para acessar e modificar atributos privados, promovendo um controle preciso sobre a manipulação dos dados. Isso aumenta a segurança, permite validações e facilita a evolução do código ao isolar as mudanças internas da interface externo
 
-### construtor parametrizado
+#### construtor parametrizado
 
 >Seguindo a orientação da atividade, criaremos um construtor parametrizado com todos os atributos
 ```java
@@ -168,7 +168,7 @@ private Double valorUnitario;
         this.valorUnitario = valorUnitario;
     }
 ```
-### ToString
+#### ToString
 
 ```java
     @Override
@@ -182,7 +182,7 @@ private Double valorUnitario;
 ```
 >Override do método toString(), que retorna uma representação de string do objeto. Esse método é frequentemente usado para imprimir informações úteis sobre o objeto. No caso, ele retorna uma string que contém o código, a descrição e o valor unitário do produto.
 
-## Classe `Bolo`
+### Classe `Bolo`
 
 ```java
 package domain;
@@ -250,7 +250,7 @@ public class Bolo extends Produto {
 ```
 >A necessidade de chamar explicitamente o construtor da superclasse em uma subclasse, mesmo que a superclasse não tenha um construtor sem argumentos é uma prática necessária para garantir uma inicialização adequada e consistente dos objetos, especialmente quando se lida com hierarquias de classes.
 
-## Classe `Doce`
+### Classe `Doce`
 
 ```java
 package domain;
@@ -303,7 +303,7 @@ public class Doce extends Produto {
 
 > Seguindo a orientação da atividade, criamos os `construtores`, `gettes and setters`, e `ToString`. 
 
-### Função `validarMinPedido`
+#### Função `validarMinPedido`
 
 >Criamos a função que verifica se a quantidade de docinhos é maior que 50. Caso não seja, retorna uma Exception personalizada com a respectiva mensagem;
 
@@ -324,3 +324,104 @@ public class Doce extends Produto {
     }
 
 ```
+
+## DAO:
+
+### DoceriaDAO:
+
+>Com Base na atividade, criaremos a classe `DoceriaDAO`
+```java
+package DAO;
+
+import domain.Bolo;
+import domain.Produto;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+
+public class DoceriaDAO {
+
+    private static List<Produto> produtos = new ArrayList<>();
+
+    public static void adicionar(Produto produto) {
+        produtos.add(produto);
+    }
+
+
+    public static List<Produto> listarPorOrdemCresteValorUnitarioEDescricao() {
+
+        produtos.sort(Comparator.comparing(Produto::getValorUnitario).thenComparing(Produto::getDescricao));
+
+        return produtos;
+    }
+
+
+    public static List<String> listarTemasTest() {
+        List<String> lp = new ArrayList<String>();
+
+        for (Produto produto : produtos) {
+            if(produto instanceof  Bolo){
+                lp.add(((Bolo) produto).getTema());
+            }
+
+        }
+
+        return lp;
+    }
+
+    public static HashSet<String> listarTemasSemRepeticao() {
+        HashSet<String> hsTemas = new HashSet<String>();
+
+        for (Produto produto : produtos) {
+            if (produto instanceof Bolo) {
+                hsTemas.add(((Bolo) produto).getTema());
+            }
+        }
+
+        return hsTemas;
+
+    }
+
+}
+
+
+
+```
+
+#### list de `Produtos`
+
+```java
+	private static List<Produto> produtos = new ArrayList<>();
+```
+
+>com base na atividade, criamos uma lista de produtos, nela salvaremos os Produtos do tipo Bolo e Doce
+
+#### metodo de `adicionar` Produtos
+```java
+public static void adicionar(Produto produto) {
+		produtos.add(produto);
+	}
+```
+> Esse cara adiciona Produtos a lista de produtos, sem misterio😎
+
+#### metodo de `obterTodosProdutos`
+> Esse cara retorna todos os produtos cadastrados, nesse caso: Bolos e Doces. Sem misterio tambem 😎😎😎
+```java
+public static List<Produto> obterTodosProdutos() {
+		return new ArrayList<>(produtos);
+	}
+
+```
+#### meetodo de `listarPorOrdemCresteValorUnitarioEDescricao`
+
+```java 
+	public static List<Produto> listarPorOrdemCresteValorUnitarioEDescricao() {
+
+		produtos.sort(Comparator.comparing(Produto::getValorUnitario).thenComparing(Produto::getDescricao));
+
+		return produtos;
+	}
+```
+> [!IMPORTANT]

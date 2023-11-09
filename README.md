@@ -77,3 +77,99 @@ public class Exception extends java.lang.Exception {
 
 
 Basicamente usaremos esse cara para criar Exceptions personalizadas
+
+
+## Domain:
+
+
+Seguindo a orientação da atividade, criaremos a classe Produto
+
+### classe ``Produto``
+
+```java 
+package domain;
+
+public abstract class Produto {
+
+
+    private Integer codigo;
+    private String descricao;
+    private Double valorUnitario;
+
+    public Produto(){
+    }
+
+    public Produto(Integer codigo, String descricao, Double valorUnitario) {
+        this.codigo = codigo;
+        this.descricao = descricao;
+        this.valorUnitario = valorUnitario;
+    }
+
+    public Integer getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(Integer codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Double getValorUnitario() {
+        return valorUnitario;
+    }
+
+    public void setValorUnitario(Double valorUnitario) {
+        this.valorUnitario = valorUnitario;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "codigo=" + codigo +
+                ", descricao='" + descricao + '\'' +
+                ", valorUnitario=" + valorUnitario +
+                '}';
+    }
+}
+```
+
+
+>seguindo a orientação da atividade, deixaremos a classe Produto como abstract. Isso significa dizer que ela não pode ser instanciada diretamente, em vez disso ela serve de modelo para as classes que a extenderão;
+
+```java
+
+public abstract class Produto {
+    ...
+}
+```
+
+### Atributos necessários:
+```java
+private Integer codigo;
+private String descricao;
+private Double valorUnitario;
+```
+>Seguindo a orientação da atividade, criaremos os atributos privados, juntamente com os metodos `get` e `set`, que são fornecidos para acessar e modificar atributos privados, promovendo um controle preciso sobre a manipulação dos dados. Isso aumenta a segurança, permite validações e facilita a evolução do código ao isolar as mudanças internas da interface externo
+
+
+### ToString
+
+```java
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "codigo=" + codigo +
+                ", descricao='" + descricao + '\'' +
+                ", valorUnitario=" + valorUnitario +
+                '}';
+    }
+```
+>Override do método toString(), que retorna uma representação de string do objeto. Esse método é frequentemente usado para imprimir informações úteis sobre o objeto. No caso, ele retorna uma string que contém o código, a descrição e o valor unitário do produto.
+

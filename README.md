@@ -1,26 +1,7 @@
 # Aula-Monitoria-OO-Guide
 
->## Arquitetura do Projeto
 
-Neste guia, abordaremos o conceito de arquitetura em camadas, que consiste no processo de decomposição de sistemas complexos em camadas para facilitar a compreensão e manutenção.
-
-## Tipologia:
-A topologia desta arquitetura pode ser representada da seguinte forma:
-
->Apresentação:
-Lida com a interface do usuário e lógicas de comunicação com navegadores.
-
->Negócio:
-Executa operações e fluxos de negócios associados a uma requisição.
-
->Persistência:
-Responsável por persistir ou recuperar informações fisicamente salvas.
-
->Banco de dados:
-Mantém os dados salvos de forma física.
-
-No caso do projeto abordado, não usaremos banco para salvar os dados. Utilizaremos collections do próprio Java.
-
+Seguiremos a orientação dessa [atividade](https://docs.google.com/document/d/18p-7S7QSl2tXeem1ws7X06EgSYS4JVh0dMEw_5cP3xc/edit) para realização do projeto
 
 
 ## Arquitetura em Camadas e pacotes
@@ -62,6 +43,37 @@ Em seguida criaremos os seguintes pacotes dentro do pacote anterior:
 Lembre-se de que essa é uma sugestão de organização, e a estrutura pode variar com base nas necessidades do projeto e nas convenções adotadas.
 
 
-A hierarquia de pacotes no Java é essencial para o desenvolvimento de software, organizando o código em unidades lógicas que facilitam a compreensão e manutenção. Ela evita conflitos de nomes, controla o acesso a classes, promove a reutilização de código, facilita a manutenção e contribui para o encapsulamento.
+>A hierarquia de pacotes no Java é essencial para o desenvolvimento de software, organizando o código em unidades lógicas que facilitam a compreensão e manutenção. Ela evita conflitos de nomes, controla o acesso a classes, promove a reutilização de código, facilita a manutenção e contribui para o encapsulamento.
 
-No final 
+No final, a organização de pacotes deve estar assim: ![img.png](images/img.png)
+
+
+## Exception:
+
+seguindo a orientação da atividade, criaremos a Classe exception:
+
+```java
+package Exception;
+public class Exception extends java.lang.Exception {
+    private static final long serialVersionUID = 1L;
+    public Exception(String message){
+        super(message);
+    }
+    
+}
+```
+>Aqui é definida uma classe chamada ``Exception``, que estende a classe ``java.lang.Exception``, Isso significa que a classe ``Exception`` é uma exceção verificada do java
+
+>O ``serialVersionUID`` é usado para controlar a versão de serialização da classe. Isso é útil quando você está lidando com persistência de objetos em Java. A serialização em Java refere-se ao processo de converter um objeto em uma sequência de bytes, que pode ser posteriormente recriada para reconstituir o objeto original.
+
+
+```java
+  public Exception(String message){
+        super(message);
+    }
+```
+
+> esse construtor recebe uma mensagem como parametro, que é a mensagem que será exibida quando uma instancia dessa exceção for lançada. O construtor chama o contrutor da classe pai ``java.lang.Exception``, passando a mensagem
+
+
+Basicamente usaremos esse cara para criar Exceptions personalizadas

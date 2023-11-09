@@ -329,7 +329,7 @@ public class Doce extends Produto {
 
 ### DoceriaDAO:
 
->Com Base na atividade, criaremos a classe `DoceriaDAO`
+>Com Base na atividade, criaremos a classe `DoceriaDAO`, que vai ser responsavel pela persistencia dos dados
 ```java
 package DAO;
 
@@ -398,7 +398,7 @@ public class DoceriaDAO {
 
 >com base na atividade, criamos uma lista de produtos, nela salvaremos os Produtos do tipo Bolo e Doce
 
-#### metodo de `adicionar` Produtos
+#### metodo `adicionar`
 ```java
 public static void adicionar(Produto produto) {
 		produtos.add(produto);
@@ -406,7 +406,7 @@ public static void adicionar(Produto produto) {
 ```
 > Esse cara adiciona Produtos a lista de produtos, sem misterio😎
 
-#### metodo de `obterTodosProdutos`
+#### metodo `obterTodosProdutos`
 > Esse cara retorna todos os produtos cadastrados, nesse caso: Bolos e Doces. Sem misterio tambem 😎😎😎
 ```java
 public static List<Produto> obterTodosProdutos() {
@@ -414,7 +414,7 @@ public static List<Produto> obterTodosProdutos() {
 	}
 
 ```
-#### meetodo de `listarPorOrdemCresteValorUnitarioEDescricao`
+#### metodo  `listarPorOrdemCresteValorUnitarioEDescricao`
 
 ```java 
 	public static List<Produto> listarPorOrdemCresteValorUnitarioEDescricao() {
@@ -426,4 +426,223 @@ public static List<Produto> obterTodosProdutos() {
 ```
 >[!IMPORTANT]
 >
-> rtgqert3re
+> O método listarPorOrdemCresteValorUnitarioEDescricao utiliza o método sort para ordenar a lista de produtos com base em dois critérios:
+
+>`getValorUnitario`: Este é o critério principal de ordenação. Os produtos são ordenados de forma crescente com base no valor unitário.
+
+>`getDescricao`: Este é o critério secundário de ordenação. Se houver produtos com o mesmo valor unitário, eles serão ordenados de forma crescente com base na descrição.
+
+> O método `Comparator.comparing` é usado para especificar o critério principal (getValorUnitario), e o método thenComparing é usado para especificar o critério secundário (getDescricao). Isso cria uma ordem lexicográfica, onde os produtos são ordenados primeiro pelo valor unitário e, em caso de empate, pela descrição.
+
+#### metodo `listarTemasSemRepeticao`
+
+```java
+    public static HashSet<String> listarTemasSemRepeticao() {
+        HashSet<String> hsTemas = new HashSet<String>();
+
+        for (Produto produto : produtos) {
+            if (produto instanceof Bolo) {
+                hsTemas.add(((Bolo) produto).getTema());
+            }
+        }
+        return hsTemas;
+
+    }
+```
+>Esse cara é usado para extrair os temas dos bolos a partir de uma lista de produtos, eliminando temas duplicados e retornando um conjunto contendo temas únicos.
+
+
+```java
+HashSet<String> hsTemas = new HashSet<String>();
+```
+>Esse cara é uma estrutura de dados do java que armazena elementos sem repetição.
+
+
+
+```java
+hsTemas.add(((Bolo) produto).getTema());
+```
+> Se o produto for um bolo, o tema desse bolo é adicionado ao HashSet. Para fazer isso, é necessário converter o produto para o tipo Bolo usando (Bolo) produto, e em seguida, chama-se o método getTema() para obter o tema específico do bolo.
+
+## TUI:
+
+### DoceriaTUI
+
+> Com base na atividade criaremos a DoceriaTUI, que vai ser responsável pela interação do usuario com o sistema
+
+```java
+package TUI;
+
+import DAO.DoceriaDAO;
+import domain.Bolo;
+import domain.Doce;
+import Exception.ProdutoException;
+import domain.Produto;
+
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class DoceriaTUI {
+
+    static Scanner scan = new Scanner(System.in);
+
+    public static void cadastrarDoce() {
+        try {
+            System.out.println("Informe o Codigo do Doce");
+            Integer codigo = scan.nextInt();
+            System.out.println("Informe a descrição do Doce");
+            scan.nextLine();
+            String descricao = scan.nextLine();
+            System.out.println("Informe o valor unitário do Doce");
+            Double valorUnitario = scan.nextDouble();
+            System.out.println("Informe a quantidade de Doces");
+            Integer minPedido = scan.nextInt();
+            Doce.validarMinPedido(minPedido);
+            Doce doce = new Doce(codigo, descricao, valorUnitario, minPedido);
+            DoceriaDAO.adicionar(doce);
+            System.out.println("Doce cadastrado com sucesso");
+        } catch (ProdutoException e) {
+            System.out.println(e.getMessage());
+
+        } catch (InputMismatchException e) {
+            System.out.println("Valor digitado não é suportado");
+        }
+    }
+
+    public static void cadastrarBolo() {
+        try {
+            System.out.println("Informe o Codigo do Bolo");
+            Integer codigo = scan.nextInt();
+            System.out.println("Informe a descrição do Bolo");
+            scan.nextLine();
+            String descricao = scan.nextLine();
+            System.out.println("Informe o valor unitário do Bolo");
+            Double valorUnitario = scan.nextDouble();
+            System.out.println("Informe a quantidade de fatias do Bolo");
+            Integer quantFatias = scan.nextInt();
+            System.out.println("Informe o Tema do Bolo");
+            scan.nextLine();
+            String tema = scan.nextLine();
+            Bolo bolo = new Bolo(codigo, descricao, valorUnitario, quantFatias, tema);
+            DoceriaDAO.adicionar(bolo);
+            System.out.println("Bolo cadastrado com sucesso");
+        } catch (InputMismatchException e) {
+            System.out.println("Valor digitado não é suportado");
+        }
+
+    }
+
+    public static void listarProdutosPorValorEDescricao() {
+
+        for (Produto produto : DoceriaDAO.listarPorOrdemCresteValorUnitarioEDescricao()) {
+            System.out.println(produto.toString());
+        }
+
+    }
+
+
+    public static void listarTemas() {
+
+        System.out.println("Temas de bolos cadastrados: ");
+        for (String tema : DoceriaDAO.listarTemasSemRepeticao()) {
+            System.out.println(tema);
+        }
+    }
+
+}
+```
+
+#### `Scanner`
+
+```java
+    static Scanner scan = new Scanner(System.in);
+```
+> Deixei esse cara como static par apoder user ele na classe inteira, sem precisar chamar em cada metodo
+
+
+#### method `cadastrarBolo`
+
+```java
+
+    public static void cadastrarBolo() {
+        try {
+            System.out.println("Informe o Codigo do Bolo");
+            Integer codigo = scan.nextInt();
+            System.out.println("Informe a descrição do Bolo");
+            scan.nextLine();
+            String descricao = scan.nextLine();
+            System.out.println("Informe o valor unitário do Bolo");
+            Double valorUnitario = scan.nextDouble();
+            System.out.println("Informe a quantidade de fatias do Bolo");
+            Integer quantFatias = scan.nextInt();
+            System.out.println("Informe o Tema do Bolo");
+            scan.nextLine();
+            String tema = scan.nextLine();
+            Bolo bolo = new Bolo(codigo, descricao, valorUnitario, quantFatias, tema);
+            DoceriaDAO.adicionar(bolo);
+            System.out.println("Bolo cadastrado com sucesso");
+        } catch (InputMismatchException e) {
+            System.out.println("Valor digitado não é suportado");
+        }
+
+```
+>Esse cara vai receber os atributos necessários para criar um novo bolo, Fazendo as validções necessárias e, no fim, salvando em uma lista de Produtos. E, caso aconteça algum erro, exibe uma mensagem de erro.
+
+
+#### method `cadastrarDoce`
+
+```java
+ public static void cadastrarDoce() {
+        try {
+            System.out.println("Informe o Codigo do Doce");
+            Integer codigo = scan.nextInt();
+            System.out.println("Informe a descrição do Doce");
+            scan.nextLine();
+            String descricao = scan.nextLine();
+            System.out.println("Informe o valor unitário do Doce");
+            Double valorUnitario = scan.nextDouble();
+            System.out.println("Informe a quantidade de Doces");
+            Integer minPedido = scan.nextInt();
+            Doce.validarMinPedido(minPedido);
+            Doce doce = new Doce(codigo, descricao, valorUnitario, minPedido);
+            DoceriaDAO.adicionar(doce);
+            System.out.println("Doce cadastrado com sucesso");
+        } catch (ProdutoException e) {
+            System.out.println(e.getMessage());
+
+        } catch (InputMismatchException e) {
+            System.out.println("Valor digitado não é suportado");
+        }
+    }
+```
+>Esse cara vai receber os atributos necessários para criar um novo doce, Fazendo as validções necessárias e, no fim, salvando em uma lista de Produtos. E, caso aconteça algum erro, exibe uma mensagem de erro.
+
+
+#### função `listarProdutosPorValorEDescricao` 
+
+```java
+    public static void listarProdutosPorValorEDescricao() {
+
+        for (Produto produto : DoceriaDAO.listarPorOrdemCresteValorUnitarioEDescricao()) {
+            System.out.println(produto.toString());
+        }
+
+    }
+```
+> Esse cara vai chamar o methodo `listarProdutosPorValorEDescricao` da `ProdutoDAO` e vai exibir na tela, Sem segredo 😎😎 
+
+
+#### função `listarTemas`
+
+```java
+    public static void listarTemas() {
+
+        System.out.println("Temas de bolos cadastrados: ");
+        for (String tema : DoceriaDAO.listarTemasSemRepeticao()) {
+            System.out.println(tema);
+        }
+    }
+```
+> Esse cara vai chamar o metodo `listarTemasSemRepeticao` da `ProdutoDAO` e vai exibir eles na tela, basikão😎😎😎😎😎😎😎😎😎😎😎😎😎
+

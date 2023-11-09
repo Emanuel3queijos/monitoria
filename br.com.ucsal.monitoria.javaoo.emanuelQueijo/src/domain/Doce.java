@@ -21,8 +21,7 @@ public class Doce extends Produto {
         return minPedido;
     }
 
-    public void setMinPedido(Integer minPedido) throws ProdutoException {
-        validarMinPedido(minPedido);
+    public void setMinPedido(Integer minPedido) {
         this.minPedido = minPedido;
     }
 

@@ -25,18 +25,18 @@ public class DoceriaDAO {
     }
 
 
-    public static List<String> listarTemasTest() {
-        List<String> lp = new ArrayList<String>();
-
-        for (Produto produto : produtos) {
-            if(produto instanceof  Bolo){
-                lp.add(((Bolo) produto).getTema());
-            }
-
-        }
-
-        return lp;
-    }
+//    public static List<String> listarTemasTest() {
+//        List<String> lp = new ArrayList<String>();
+//
+//        for (Produto produto : produtos) {
+//            if(produto instanceof  Bolo){
+//                lp.add(((Bolo) produto).getTema());
+//            }
+//
+//        }
+//
+//        return lp;
+//    }
 
     public static HashSet<String> listarTemasSemRepeticao() {
         HashSet<String> hsTemas = new HashSet<String>();
